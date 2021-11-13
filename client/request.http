@@ -1,0 +1,29 @@
+### Add Group
+POST http://localhost:9999/api/v1/groups
+Content-Type: application/json
+
+{
+  "name": "group8",
+  "is_active": "true"
+}
+
+### Add User
+POST http://localhost:9999/api/v1/users
+Content-Type: application/json
+
+{
+  "name": "user1",
+  "password": "pass1",
+  "email": "User1@user.com",
+  "is_active": "true",
+  "group": "6"
+}
+
+### Edit User
+PUT http://localhost:9999/api/v1/users
+Content-Type: application/json
+
+{
+  "id": "1",
+  "is_active": "false"
+}

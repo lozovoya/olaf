@@ -25,8 +25,8 @@ func RouterUsers(router chi.Router, usersController *v1.Users) {
 }
 
 func RouterGroups(router chi.Router, groupsController *v1.Groups) {
-	router.Post("groups", groupsController.AddGroup)
-	router.Put("groups", groupsController.EditGroup)
-	router.Put("groups/delete", groupsController.DeleteGroup)
-	router.Get("groups", groupsController.ListAllGroups)
+	router.Post("/groups", groupsController.AddGroup)
+	router.Put("/groups", groupsController.EditGroup)
+	router.Put("/groups/delete", groupsController.DeleteGroup)
+	router.Get("/groups", groupsController.ListAllGroups)
 }
