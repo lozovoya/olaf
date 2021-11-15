@@ -85,9 +85,68 @@ func (u *Users) EditUser(writer http.ResponseWriter, request *http.Request) {
 }
 
 func (u *Users) ListAllUsers(writer http.ResponseWriter, request *http.Request) {
-
+	users, err := u.usersRepo.ListAllUsers(request.Context())
+	if err != nil {
+		u.lg.Error("ListAllUsers", zap.Error(err))
+		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	err = json.NewEncoder(writer).Encode(users)
+	if err != nil {
+		u.lg.Error("ListAllUsers", zap.Error(err))
+		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	writer.Header().Set("Content-Type", "application/json")
 }
 
 func (u *Users) DeleteUser(writer http.ResponseWriter, request *http.Request) {
+	var data UserDTO
+	err := json.NewDecoder(request.Body).Decode(&data)
+	if err != nil {
+		u.lg.Error("DeleteUser", zap.Error(err))
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	if data.ID == 0 {
+		u.lg.Error("DeleteUser: field id is empty")
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	err = u.usersRepo.DeleteUserbyID(request.Context(), data.ID)
+	if err != nil {
+		u.lg.Error("DeleteUser", zap.Error(err))
+		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	writer.Header().Set("Content-Type", "application/json")
+}
 
+func (u *Users) GetUsersID(writer http.ResponseWriter, request *http.Request) {
+	var data UserDTO
+	err := json.NewDecoder(request.Body).Decode(&data)
+	if err != nil {
+		u.lg.Error("GetUsersID", zap.Error(err))
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	if data.Email == "" {
+		u.lg.Error("GetUsersID: field id is empty")
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	id, err := u.usersRepo.GetUserIDbyEmail(request.Context(), data.Email)
+	if err != nil {
+		u.lg.Error("GetUsersID", zap.Error(err))
+		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	var user = UserDTO{ID: id}
+	err = json.NewEncoder(writer).Encode(user)
+	if err != nil {
+		u.lg.Error("ListAllUsers", zap.Error(err))
+		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	writer.Header().Set("Content-Type", "application/json")
 }

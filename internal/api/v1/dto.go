@@ -14,3 +14,7 @@ type GroupDTO struct {
 	Name     string `json:"name,omitempty"`
 	IsActive bool   `json:"is_active,string,omitempty"`
 }
+
+type UsersDTO struct {
+	Users []UserDTO
+}

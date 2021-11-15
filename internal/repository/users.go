@@ -53,7 +53,7 @@ func (u userRepo) EditUser(ctx context.Context, user model.User) error {
 	if user.Group != 0 {
 		dbReq = fmt.Sprintf("%s groip_id=%d, ", dbReq, user.Group)
 	}
-	dbReq = fmt.Sprintf("%s isactive=%t, updated=CURRENT_TIMESTAMP WHERE id=%d", dbReq, user.IsActive, user.ID)
+	dbReq = fmt.Sprintf("%s updated=CURRENT_TIMESTAMP WHERE id=%d", dbReq, user.ID)
 	_, err := u.pool.Query(ctx, dbReq)
 	if err != nil {
 		return fmt.Errorf("EditUser: %w", err)
@@ -71,15 +71,29 @@ func (u userRepo) ListAllUsers(ctx context.Context) ([]model.User, error) {
 	for rows.Next() {
 		var user model.User
 		err = rows.Scan(&user.ID, &user.Name, &user.Email, &user.IsActive, &user.Group)
+		if err != nil {
+			return users, fmt.Errorf("ListAllUsers: %w", err)
+		}
 		users = append(users, user)
 	}
 	return users, nil
 }
 
-func (u userRepo) DeleteUser(ctx context.Context, user model.User) error {
-	panic("implement me")
+func (u userRepo) DeleteUserbyID(ctx context.Context, id int) error {
+	dbReq := fmt.Sprintf("UPDATE users SET isactive=false, updated=CURRENT_TIMESTAMP WHERE id=%d", id)
+	_, err := u.pool.Query(ctx, dbReq)
+	if err != nil {
+		return fmt.Errorf("DeleteUser: %w", err)
+	}
+	return nil
 }
 
-func (u userRepo) GetUser(ctx context.Context, email string) (model.User, error) {
-	panic("implement me")
+func (u userRepo) GetUserIDbyEmail(ctx context.Context, email string) (int, error) {
+	dbReq := fmt.Sprintf("SELECT id FROM users WHERE email=%s", strings.ToLower(email))
+	var id int
+	err := u.pool.QueryRow(ctx, dbReq).Scan(&id)
+	if err != nil {
+		return 0, fmt.Errorf("GetUserIDbyEmail: %w", err)
+	}
+	return id, nil
 }

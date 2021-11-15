@@ -19,6 +19,7 @@ func NewRouter(mux *chi.Mux, usersController *v1.Users, groupsController *v1.Gro
 
 func RouterUsers(router chi.Router, usersController *v1.Users) {
 	router.Post("/users", usersController.AddUser)
+	router.Post("/users/id", usersController.GetUsersID)
 	router.Put("/users", usersController.EditUser)
 	router.Put("/users/delete", usersController.DeleteUser)
 	router.Get("/users", usersController.ListAllUsers)
