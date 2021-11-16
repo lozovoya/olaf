@@ -45,13 +45,13 @@ func (u *Users) AddUser(writer http.ResponseWriter, request *http.Request) {
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
+	writer.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(writer).Encode(addedUser)
 	if err != nil {
 		u.lg.Error("AddUser", zap.Error(err))
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	writer.Header().Set("Content-Type", "application/json")
 }
 
 func (u *Users) EditUser(writer http.ResponseWriter, request *http.Request) {
@@ -75,13 +75,13 @@ func (u *Users) EditUser(writer http.ResponseWriter, request *http.Request) {
 		IsActive: data.IsActive,
 		Group:    data.Group,
 	}
+	writer.Header().Set("Content-Type", "application/json")
 	err = u.usersRepo.EditUser(request.Context(), user)
 	if err != nil {
 		u.lg.Error("EditUser", zap.Error(err))
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	writer.Header().Set("Content-Type", "application/json")
 }
 
 func (u *Users) ListAllUsers(writer http.ResponseWriter, request *http.Request) {
@@ -91,13 +91,14 @@ func (u *Users) ListAllUsers(writer http.ResponseWriter, request *http.Request) 
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
+	writer.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(writer).Encode(users)
 	if err != nil {
 		u.lg.Error("ListAllUsers", zap.Error(err))
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	writer.Header().Set("Content-Type", "application/json")
+
 }
 
 func (u *Users) DeleteUser(writer http.ResponseWriter, request *http.Request) {
@@ -113,13 +114,13 @@ func (u *Users) DeleteUser(writer http.ResponseWriter, request *http.Request) {
 		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
+	writer.Header().Set("Content-Type", "application/json")
 	err = u.usersRepo.DeleteUserbyID(request.Context(), data.ID)
 	if err != nil {
 		u.lg.Error("DeleteUser", zap.Error(err))
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	writer.Header().Set("Content-Type", "application/json")
 }
 
 func (u *Users) GetUsersID(writer http.ResponseWriter, request *http.Request) {
@@ -142,11 +143,11 @@ func (u *Users) GetUsersID(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	var user = UserDTO{ID: id}
+	writer.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(writer).Encode(user)
 	if err != nil {
 		u.lg.Error("ListAllUsers", zap.Error(err))
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	writer.Header().Set("Content-Type", "application/json")
 }

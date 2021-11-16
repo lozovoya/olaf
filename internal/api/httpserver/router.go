@@ -30,4 +30,6 @@ func RouterGroups(router chi.Router, groupsController *v1.Groups) {
 	router.Put("/groups", groupsController.EditGroup)
 	router.Put("/groups/delete", groupsController.DeleteGroup)
 	router.Get("/groups", groupsController.ListAllGroups)
+	router.Post("/groups/id", groupsController.GetGroupID)
+	router.Post("/groups/sum", groupsController.GetGroupSummary)
 }

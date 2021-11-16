@@ -1,10 +1,64 @@
-### Add Group
+### Add Group 1
 POST http://localhost:9999/api/v1/groups
 Content-Type: application/json
 
 {
-  "name": "group8",
+  "name": "group66",
   "is_active": "true"
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+  client.global.set("id", response.body.id);
+});
+%}
+
+### Add Group 2
+POST http://localhost:9999/api/v1/groups
+Content-Type: application/json
+
+{
+  "name": "group234",
+  "is_active": "true"
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+  client.global.set("id2", response.body.id);
+});
+%}
+
+### Edit Group
+PUT http://localhost:9999/api/v1/groups
+Content-Type: application/json
+
+{
+  "id": "{{id}}",
+  "name": "66"
+}
+
+### Get All Groups
+GET http://localhost:9999/api/v1/groups
+Content-Type: application/json
+
+### Get Group id
+POST http://localhost:9999/api/v1/groups/id
+Content-Type: application/json
+
+{
+  "name": "group234"
+}
+
+### Delete Group
+PUT http://localhost:9999/api/v1/groups/delete
+Content-Type: application/json
+
+{
+  "id": "{{id2}}"
 }
 
 ### Add User
@@ -12,18 +66,54 @@ POST http://localhost:9999/api/v1/users
 Content-Type: application/json
 
 {
-  "name": "user1",
+  "name": "user4",
   "password": "pass1",
-  "email": "User1@user.com",
+  "email": "User66@user.com",
   "is_active": "true",
-  "group": "6"
+  "group": "{{id}}"
 }
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+  client.global.set("userid", response.body.id);
+});
+%}
 
 ### Edit User
 PUT http://localhost:9999/api/v1/users
 Content-Type: application/json
 
 {
-  "id": "1",
-  "is_active": "false"
+  "id": "{{userid}}",
+  "nam": "jude"
 }
+
+### Get All Users
+GET http://localhost:9999/api/v1/users
+
+### Get User's id
+POST http://localhost:9999/api/v1/users/id
+Content-Type: application/json
+
+{
+  "email": "User66@user.com"
+}
+
+### Get Group members
+POST http://localhost:9999/api/v1/groups/sum
+Content-Type: application/json
+
+{
+  "id": "{{id}}"
+}
+
+### Delete User
+PUT http://localhost:9999/api/v1/users/delete
+Content-Type: application/json
+
+{
+  "id": "{{userid}}"
+}
+
+

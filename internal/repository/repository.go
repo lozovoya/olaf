@@ -15,9 +15,9 @@ type Users interface {
 
 type Groups interface {
 	AddGroup(context.Context, model.Group) (int, error)
-	EditGroup(context.Context, model.Group) (model.Group, error)
-	ListAllGroups(context.Context, model.Group) ([]model.Group, error)
-	DeleteGroup(context.Context, model.Group) error
-	GetGroup(ctx context.Context, name string) (model.Group, error)
-	GetGroupMembers(ctx context.Context, name string) ([]model.User, error)
+	EditGroup(context.Context, model.Group) error
+	ListAllGroups(context.Context) ([]model.Group, error)
+	DeleteGroupbyID(context.Context, int) error
+	GetGroupIDbyName(context.Context, string) (int, error)
+	GetGroupMembersbyID(context.Context, int) ([]model.User, error)
 }

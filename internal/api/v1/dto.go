@@ -10,11 +10,11 @@ type UserDTO struct {
 }
 
 type GroupDTO struct {
-	ID       int    `json:"id,omitempty"`
+	ID       int    `json:"id,string,omitempty"`
 	Name     string `json:"name,omitempty"`
 	IsActive bool   `json:"is_active,string,omitempty"`
 }
 
-type UsersDTO struct {
-	Users []UserDTO
-}
+//type UsersDTO struct {
+//	Users []UserDTO
+//}
