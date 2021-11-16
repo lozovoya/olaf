@@ -52,7 +52,7 @@ func (u userRepo) EditUser(ctx context.Context, user model.User) error {
 		dbReq = fmt.Sprintf("%s email='%s', ", dbReq, email)
 	}
 	if user.Group != 0 {
-		dbReq = fmt.Sprintf("%s groip_id=%d, ", dbReq, user.Group)
+		dbReq = fmt.Sprintf("%s group_id=%d, ", dbReq, user.Group)
 	}
 	dbReq = fmt.Sprintf("%s updated=CURRENT_TIMESTAMP WHERE id=%d AND isactive=true", dbReq, user.ID)
 	_, err := u.pool.Query(ctx, dbReq)
