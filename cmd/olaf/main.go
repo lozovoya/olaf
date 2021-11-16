@@ -16,7 +16,7 @@ import (
 const (
 	defaultPort = "9999"
 	defaultHost = "0.0.0.0"
-	defaultDSN  = "postgres://app:pass@localhost:5432/olafdb"
+	defaultDSN  = "postgres://app:pass@olafdb:5432/olafdb"
 )
 
 func main() {
