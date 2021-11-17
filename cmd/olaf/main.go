@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v4/pgxpool"
+	_ "github.com/pdrum/swagger-automation/docs"
 	"go.uber.org/zap"
 	"net"
 	"net/http"
