@@ -2,16 +2,17 @@ package main
 
 import (
 	"context"
-	"github.com/go-chi/chi/v5"
-	"github.com/jackc/pgx/v4/pgxpool"
-	_ "github.com/pdrum/swagger-automation/docs"
-	"go.uber.org/zap"
 	"net"
 	"net/http"
 	"olaf/internal/api/httpserver"
 	v1 "olaf/internal/api/v1"
 	"olaf/internal/repository"
 	"os"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/jackc/pgx/v4/pgxpool"
+	_ "github.com/pdrum/swagger-automation/docs"
+	"go.uber.org/zap"
 )
 
 const (
@@ -21,17 +22,17 @@ const (
 )
 
 func main() {
-	port, ok := os.LookupEnv("MARKET_PORT")
+	port, ok := os.LookupEnv("OLAF_PORT")
 	if !ok {
 		port = defaultPort
 	}
 
-	host, ok := os.LookupEnv("MARKET_HOST")
+	host, ok := os.LookupEnv("OLAF_HOST")
 	if !ok {
 		host = defaultHost
 	}
 
-	dsn, ok := os.LookupEnv("MARKET_DB")
+	dsn, ok := os.LookupEnv("OLAF_DB")
 	if !ok {
 		dsn = defaultDSN
 	}
